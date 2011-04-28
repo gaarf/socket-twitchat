@@ -8,10 +8,7 @@ module.exports = function(app, BASE_VIEW_OPTIONS) {
   });
 
   app.get('/', function(req, res){
-    res.render('index', _.defaults( { scripts: [ 
-      'client.js' 
-    , '/socket.io/socket.io.js' 
-    ] } , BASE_VIEW_OPTIONS ) );
+    res.render('index', _.defaults( { scripts: [ 'client.js' , '/socket.io/socket.io.js' ] } , BASE_VIEW_OPTIONS ) );
   });
 
   app.get('/help', function(req, res){

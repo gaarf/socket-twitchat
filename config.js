@@ -1,7 +1,7 @@
 module.exports = function(app, express) {
 
   var BASE_VIEW_OPTIONS =
-    { title: 'Group Streamies'
+    { title: 'Socket Streamies'
     , meta: { desc: 'A node.js experiment'
             , version: '0.0.1'
             , author: { name: 'gaarf'
