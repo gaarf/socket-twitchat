@@ -12,7 +12,7 @@ module.exports = function(app, BASE_VIEW_OPTIONS) {
       'index'
     , _.defaults(
         { scripts:
-          [ 'jqdnr.js'
+          [ 'libs/jqdnr.js'
           , 'client.js'
           , '/socket.io/socket.io.js'
           ]

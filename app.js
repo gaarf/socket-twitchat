@@ -11,9 +11,11 @@ if (!module.parent) {
   var io = require('socket.io') // socket.io, I choose you
     , socket = io.listen(app);
 
-  socket.on('### connection', function(client){
-    console.log('server says new client is here!');
-    // 
+
+  var room = {}
+
+
+  socket.on('connection', function(client){
 
     client.on('message', function(){ 
       console.log('### message', arguments);

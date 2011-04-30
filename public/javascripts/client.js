@@ -1,5 +1,12 @@
 jQuery(document).ready(function($) {
 
+  $('#page-index .draggable').each(function() {
+    var $this = $(this);
+    $this.jqDrag($this.find('.titlebar')).jqResize($this.find('.resize'));
+  }).animate({height: $(window).height() - 99});
+
+
+
   var socket = new io.Socket();
   socket.connect();
 

@@ -165,23 +165,101 @@ header {
 }
 
 #main {
-/*  background-color:orange;  */
+  position:relative;
 }
-#main h1 { font-size:160%; }
+/*#main h1 { font-size:160%; }
 #main h2 { font-size:150%; }
 #main h3 { font-size:140%; }
 #main h4 { font-size:130%; }
 #main h5 { font-size:120%; }
-#main h6 { font-size:110%; }
+#main h6 { font-size:110%; }*/
 
 footer {
   position:fixed;
+  z-index: 999;
   bottom:1px;
   right:1px;
   padding:3px;
   border-radius: 3px;
   background-color:#EEE;
   font-size:77%;
+}
+
+
+#page-index .draggable {
+  position:absolute;
+  border:1px solid black;
+  background-color:#f6f6f6;
+  width:490px;
+  border-radius:3px;
+}
+#page-index .draggable .titlebar {
+  padding:0 5px;
+  background-color:#666;
+  color:white;
+  line-height:22px;
+}
+#page-index .draggable .content {
+}
+#page-index .draggable .resize {
+  position:absolute;
+  width:0;
+  height:0;
+  right:0;
+  bottom:0;
+  border:5px solid orange;
+  border-color: transparent orange orange transparent;
+}
+
+#page-index div.chatroom ul.roster,
+#page-index div.chatroom ol.conversation {
+  list-style-type:none;
+  margin:0;
+  position:absolute;
+  left:100px;
+  right:0;
+  top:22px;
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+#page-index div.chatroom ul.roster{
+  border-right:1px dotted black;
+  width:100px;
+  bottom:0;
+  left:0;
+}
+#page-index div.chatroom ol.conversation{
+  bottom:30px;
+  border-bottom:1px dotted black;
+}
+
+#page-index div.chatroom li {
+  padding:5px;
+}
+#page-index div.chatroom .conversation em {
+  font-size:85%;
+  font-style: italic;
+}
+
+#page-index div.chatroom div.compose{
+  position:absolute;
+  top:auto;
+  bottom:3px;
+  right:50px;
+  left:103px;
+}
+#page-index div.chatroom div.compose input {
+  width:100%;
+}
+#page-index div.chatroom div.compose button {
+  position:absolute;
+  top:0;
+  right:-33px;
+}
+
+
+#page-index div.twitstream {
+  left:510px;
 }
 
 

@@ -1,15 +1,28 @@
 module.exports = function(app, express) {
 
-  var BASE_VIEW_OPTIONS =
-    { title: 'Socket Streamies'
-    , meta: { desc: 'A node.js experiment'
-            , version: '0.0.1'
-            , author: { name: 'gaarf'
-                      , href: 'http://gaarf.info'
-                      }
-            }
-    , jquery: { version: '1.5.2' }
+  function parsePerson(person) {
+    if (typeof person !== "string") return person;
+    var name = person.match(/^([^\(<]+)/)
+      , url = person.match(/\(([^\)]+)\)/)
+      , email = person.match(/<([^>]+)>/)
+      , obj = {};
+    if (name && name[0].trim()) obj.name = name[0].trim();
+    if (email) obj.email = email[1];
+    if (url) obj.href = url[1];
+    return obj;
+  }
+
+  var pkg = JSON.parse(require('fs').readFileSync('./package.json'))
+    , BASE_VIEW_OPTIONS =
+      { title: pkg.name
+      , meta: { desc: pkg.description
+              , version: pkg.version
+              , author: parsePerson(pkg.author)
+              }
+      , jquery: { version: '1.5.2' }
   };
+
+  console.log("Configuring "+pkg.name+" v"+pkg.version+"...");
 
   app.configure(function(){
     app.set('views', __dirname + '/views');
