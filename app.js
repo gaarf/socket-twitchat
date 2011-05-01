@@ -12,18 +12,35 @@ if (!module.parent) {
     , socket = io.listen(app);
 
 
-  var room = {}
-
+  var roomManager = require('./lib/chatrooms.js')
+    , room = roomManager.createRoom();
 
   socket.on('connection', function(client){
 
+    var user = roomManager.getUser(client);
+    user.joinRoom(room);
+
+    client.send(JSON.stringify({ 'buffer': room.buffer }));
+    
     client.on('message', function(){ 
       console.log('### message', arguments);
     });
 
+
     client.on('disconnect', function(){ 
-      console.log('### disconnect');
+      roomManager.removeUser(client);
     });
 
   });
+
+  room.on('roster-update', function() {
+    socket.broadcast(JSON.stringify({ 'roster': this.roster }));
+  });
+
+  room.on('conversation-update', function(msg) {
+    socket.broadcast(JSON.stringify({
+      'speech': msg
+    }));
+  });
+
 }

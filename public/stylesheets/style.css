@@ -191,6 +191,7 @@ footer {
   border:1px solid black;
   background-color:#f6f6f6;
   width:490px;
+  min-height:300px;
   border-radius:3px;
 }
 #page-index .draggable .titlebar {
@@ -236,9 +237,29 @@ footer {
 #page-index div.chatroom li {
   padding:5px;
 }
-#page-index div.chatroom .conversation em {
+
+#page-index div.chatroom ul.roster li.isyou .name {
+  font-weight:bold;
+}
+
+#page-index div.chatroom ul.roster .ip {
+  font-size:77%;
+}
+
+#page-index div.chatroom .conversation .meta,
+#page-index div.chatroom .conversation p {
+  padding:2px;
+  background-color:white;
+}
+#page-index div.chatroom .conversation .meta {
   font-size:85%;
+  color:gray;
   font-style: italic;
+  text-align:right;
+}
+#page-index div.chatroom .conversation .meta .who {
+  font-weight:bold;
+  float:left;
 }
 
 #page-index div.chatroom div.compose{
