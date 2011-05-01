@@ -2,7 +2,7 @@
   "author": "AD (http://gaarf.info)",
   "name": "Socket Streamies",
   "description": "A nodejs experiment",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "repository": {
     "url": ""
   },
