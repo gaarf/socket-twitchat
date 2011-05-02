@@ -11,10 +11,14 @@ jQuery(document).ready(function($) {
   socket.on('connect', function(){
     console.info('socket connected');
 
-    this.send(JSON.stringify({'hello': {
-      ua: navigator.userAgent,
-      name: null // TODO: cookie to store name
-    }}));
+    function setName(name) {
+      socket.send(JSON.stringify({'hello': {
+        ua: navigator.userAgent,
+        name: name
+      }}));
+    }
+
+    setName();
 
     $compose
       .bind('submit', function(e) {
@@ -24,6 +28,15 @@ jQuery(document).ready(function($) {
         if(val) {
           $input.val('');
           socket.send(JSON.stringify({'compo':val}));
+        }
+      });
+
+    $roster
+      .delegate('a', 'click', function(e) {
+        e.preventDefault();
+        var name = prompt('Change your name:');
+        if(name.length) {
+          setName(name);
         }
       });
 
@@ -41,24 +54,23 @@ jQuery(document).ready(function($) {
     var mySessionId = this.transport.sessionid;
 
     function appendSpeech(speech) {
-
-      var spkid = speech.user.id,
+      var user = speech.user,
           $last = $convo.find('li:last'),
           when = (new Date(speech.time)).toTimeString();
-
-      if($last.size() && $last.find('.meta .who').attr('data-userid') == spkid) {
+      if($last.size() && $last.find('.meta .who').attr('data-userid') == user.id) {
         $last.append($('<p/>').text(speech.text));
+        $last.find('.meta .who').text(user.name);
         $last.find('.meta .when').text(when);
       }
       else {
         $('<li/>')
-          .addClass(spkid==mySessionId?'isyou':'')
+          .addClass(user.id==mySessionId?'isyou':'')
           .append(
             $('<div/>').addClass('meta')
-              .append($('<span/>').addClass('who').attr('data-userid',spkid).text(speech.user.name))
-              .append($('<span/>').addClass('when').text(when))
+              .append( $('<span/>').addClass('who').attr('data-userid',user.id).text(user.name) )
+              .append( $('<span/>').addClass('when').text(when) )
           )
-          .append($('<p/>').text(speech.text))
+          .append( $('<p/>').text(speech.text) )
           .appendTo($convo);
       }
       $convo.scrollTop($convo[0]['scrollHeight']);
@@ -72,15 +84,13 @@ jQuery(document).ready(function($) {
         case 'roster':
           $roster.empty();
           $.each(obj, function() {
-            var $n = $('<li/>').attr('data-id', this.id)
-              .append($('<p/>').addClass('name').text(this.name))
-              .append($('<p/>').addClass('ip').text(this.ip))
-
-            if(mySessionId == this.id) {
-              $n.addClass('isyou');
-            }
-
-            $n.appendTo($roster);
+            var isYou = (mySessionId == this.id);
+            $('<li/>')
+              .addClass( isYou ? 'isyou' : '')
+              .attr('data-id', this.id)
+              .append( $('<p/>').addClass('name').append( $( isYou ? '<a href="#" title="click to rename"/>' : '<span/>').text(this.name) ) )
+              .append( $('<p/>').addClass('ip').text(this.ip) )
+              .appendTo($roster);
           });
         break;
 
@@ -89,6 +99,7 @@ jQuery(document).ready(function($) {
         break;
 
         case 'buffer':
+          $convo.empty();
           $.each(obj,function() {
             appendSpeech(this);
           });

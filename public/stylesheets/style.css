@@ -249,9 +249,9 @@ footer {
   margin:5px;
 }
 
-#page-index div.chatroom ul.roster li.isyou {
+/*#page-index div.chatroom ul.roster li.isyou .name{
   font-weight:bold;
-}
+}*/
 
 #page-index div.chatroom ul.roster .ip {
   font-size:77%;
