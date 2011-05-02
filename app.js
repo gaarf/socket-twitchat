@@ -9,23 +9,27 @@ if (!module.parent) {
   console.log("Express server listening on port %d", app.address().port);
 
   var io = require('socket.io') // socket.io, I choose you
-    , socket = io.listen(app);
-
-
-  var roomManager = require('./lib/chatrooms.js')
+    , socket = io.listen(app)
+    , roomManager = require('./lib/chatrooms.js')
     , room = roomManager.createRoom();
 
   socket.on('connection', function(client){
 
     var user = roomManager.getUser(client);
-    user.joinRoom(room);
 
-    client.send(JSON.stringify({ 'buffer': room.buffer }));
-    
-    client.on('message', function(){ 
-      console.log('### message', arguments);
+    client.on('message', function(msg){ 
+
+      var obj = JSON.parse(msg);
+      console.log(obj);
+
+      user.processMessage(obj);
+
+      if('hello' in obj) {
+        user.joinRoom(room);
+        client.send(JSON.stringify({ 'buffer': room.buffer }));
+      }
+
     });
-
 
     client.on('disconnect', function(){ 
       roomManager.removeUser(client);
@@ -38,9 +42,7 @@ if (!module.parent) {
   });
 
   room.on('conversation-update', function(msg) {
-    socket.broadcast(JSON.stringify({
-      'speech': msg
-    }));
+    socket.broadcast(JSON.stringify({ 'speech': msg }));
   });
 
 }

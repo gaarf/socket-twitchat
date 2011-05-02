@@ -10,14 +10,20 @@
   <meta name="description" content="<%= meta.desc %>">
   <meta name="author" content="<%= meta.author.name + ' ' + meta.author.href %>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <script>document.documentElement.className = 'js';</script>
+
   <link rel="stylesheet" href="/stylesheets/style.css">
-  <script src="/javascripts/libs/modernizr-1.7.min.js"></script>
 </head>
 <body>
   <div id="container">
     <header>
       <%= title %>
     </header>
+    <noscript>JavaScript is required!</noscript>
     <div id="main" role="main">
       <%- body %>
     </div>
@@ -31,6 +37,9 @@
 <% if(jquery) { %>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/<%= jquery.version %>/jquery.js"></script>
   <script>window.jQuery || document.write("<script src='/javascripts/libs/jquery-<%= jquery.version %>.min.js'>\x3C/script>")</script>
+  <!--[if lt IE 8 ]>
+    <script src="https://github.com/douglascrockford/JSON-js/raw/master/json2.js"></script>
+  <![endif]-->
 <% } %>
   <script>
     // make it safe to use console.log always
@@ -41,12 +50,13 @@
   <script src="<%= (scripts[c].match(/^(https?:)?\//i) ? '' : '/javascripts/') + scripts[c] %>"></script>
 <% } %>
 
-<% if(status!=404) { %>
-  <!--[if lt IE 7 ]>
-    <script src="/javascripts/libs/dd_belatedpng.js"></script>
-    <script>DD_belatedPNG.fix("img, .png_bg");</script>
-  <![endif]-->
 
+<!--[if lt IE 7 ]>
+  <script src="/javascripts/libs/dd_belatedpng.js"></script>
+  <script>DD_belatedPNG.fix("img, .png_bg");</script>
+<![endif]-->
+
+<% if(status!=404) { %>
   <!-- <script>
     var _gaq=[["_setAccount","UA-XXXXX-X"],["_trackPageview"]];
     (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;

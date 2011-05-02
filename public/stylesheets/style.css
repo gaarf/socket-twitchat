@@ -185,6 +185,17 @@ footer {
   font-size:77%;
 }
 
+.no-js #page-index,
+#page-index.loading .draggable,
+#page-index div.standby {
+  display:none;
+}
+
+#page-index.loading div.standby {
+  display:block;
+  text-align:center;
+  font-size:200%;
+}
 
 #page-index .draggable {
   position:absolute;
@@ -224,21 +235,21 @@ footer {
   overflow-y:auto;
 }
 #page-index div.chatroom ul.roster{
-  border-right:1px dotted black;
+  border-right:1px solid black;
   width:100px;
   bottom:0;
   left:0;
 }
 #page-index div.chatroom ol.conversation{
   bottom:30px;
-  border-bottom:1px dotted black;
+  border-bottom:1px solid black;
 }
 
 #page-index div.chatroom li {
-  padding:5px;
+  margin:5px;
 }
 
-#page-index div.chatroom ul.roster li.isyou .name {
+#page-index div.chatroom ul.roster li.isyou {
   font-weight:bold;
 }
 
@@ -246,33 +257,42 @@ footer {
   font-size:77%;
 }
 
+#page-index div.chatroom .conversation li {
+  background-color:white;
+  border-radius:3px;
+}
+
+#page-index div.chatroom .conversation li.isyou {
+  background-color:#EEE;
+}
+
 #page-index div.chatroom .conversation .meta,
 #page-index div.chatroom .conversation p {
   padding:2px;
-  background-color:white;
 }
+
+
+
 #page-index div.chatroom .conversation .meta {
-  font-size:85%;
+  font-size:77%;
   color:gray;
-  font-style: italic;
   text-align:right;
 }
 #page-index div.chatroom .conversation .meta .who {
-  font-weight:bold;
   float:left;
 }
 
-#page-index div.chatroom div.compose{
+#page-index div.chatroom form.compose{
   position:absolute;
   top:auto;
   bottom:3px;
   right:50px;
-  left:103px;
+  left:105px;
 }
-#page-index div.chatroom div.compose input {
+#page-index div.chatroom form.compose input {
   width:100%;
 }
-#page-index div.chatroom div.compose button {
+#page-index div.chatroom form.compose button {
   position:absolute;
   top:0;
   right:-33px;
