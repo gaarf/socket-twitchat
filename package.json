@@ -1,15 +1,12 @@
 {
   "author": "AD (http://gaarf.info)",
-  "name": "Socket Streamies",
+  "name": "socket-streamies",
   "description": "A nodejs experiment",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "url": ""
   },
   "main": "app.js",
-  "directories": {
-    "lib": "lib"
-  },
   "scripts": {
     "test": "expresso"
   },
@@ -17,9 +14,9 @@
     "node": "*"
   },
   "dependencies": {
-    "express": "*",
-    "underscore": "*",
-    "socket.io": "*"
+    "express": "",
+    "underscore": "",
+    "socket.io": ""
   },
   "devDependencies": {
     "expresso": "*"
