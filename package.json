@@ -17,7 +17,11 @@
     "node": "*"
   },
   "dependencies": {
-    "express": "*"
+    "express": "*",
+    "underscore": "*",
+    "socket.io": "*"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "expresso": "*"
+  }
 }
