@@ -185,17 +185,24 @@ footer {
   font-size:77%;
 }
 
+
 .no-js #page-index,
-#page-index.loading .draggable,
-#page-index div.standby {
+#page-index .draggable,
+#page-index.loaded div.standby {
   display:none;
 }
 
-#page-index.loading div.standby {
-  display:block;
+#page-index div.standby {
   text-align:center;
   font-size:200%;
 }
+
+/*#page-index .twitstream,*/
+#page-index.loaded .chatroom {
+  display:block;
+}
+
+
 
 #page-index .draggable {
   position:absolute;

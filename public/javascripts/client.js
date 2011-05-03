@@ -1,12 +1,15 @@
 jQuery(document).ready(function($) {
 
-  var $page = $('#page-index').addClass('loading'),
+  var $page = $('#page-index'),
       $roster = $page.find('.chatroom ul.roster'),
       $convo = $page.find('.chatroom ol.conversation'),
       $compose = $page.find('.chatroom form.compose');
 
   var socket = new io.Socket();
   socket.connect();
+
+
+
 
   socket.on('connect', function(){
     console.info('socket connected');
@@ -41,7 +44,7 @@ jQuery(document).ready(function($) {
       });
 
     $page
-      .removeClass('loading')
+      .addClass('loaded')
       .find('.draggable')
         .each(function() {
           var $this = $(this);
@@ -50,13 +53,17 @@ jQuery(document).ready(function($) {
         .animate({height: $(window).height() - 99});
   });
 
+
+
+
+
   socket.on('message', function(str){
     var mySessionId = this.transport.sessionid;
 
     function appendSpeech(speech) {
       var user = speech.user,
           $last = $convo.find('li:last'),
-          when = (new Date(speech.time)).toTimeString();
+          when = (new Date()).setTime(speech.time).toTimeString();
       if($last.size() && $last.find('.meta .who').attr('data-userId') == user.id) {
         $last.append($('<p/>').text(speech.text));
         $last.find('.meta .who').text(user.name);
