@@ -14,15 +14,14 @@ if (!module.parent) {
     , room = roomManager.createRoom();
 
   socket.on('connection', function(client){
-
-    console.log(client);
+    console.log("CONNECTION", client.connection.remoteAddress);
 
     var user = roomManager.getUser(client);
 
     client.on('message', function(msg){ 
+      console.log("MESSAGE", msg);
 
       var obj = JSON.parse(msg);
-      console.log(obj);
 
       user.processMessage(obj);
 
