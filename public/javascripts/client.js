@@ -57,7 +57,7 @@ jQuery(document).ready(function($) {
       var user = speech.user,
           $last = $convo.find('li:last'),
           when = (new Date(speech.time)).toTimeString();
-      if($last.size() && $last.find('.meta .who').attr('data-userid') == user.id) {
+      if($last.size() && $last.find('.meta .who').attr('data-userId') == user.id) {
         $last.append($('<p/>').text(speech.text));
         $last.find('.meta .who').text(user.name);
         $last.find('.meta .when').text(when);
@@ -67,7 +67,7 @@ jQuery(document).ready(function($) {
           .addClass(user.id==mySessionId?'isyou':'')
           .append(
             $('<div/>').addClass('meta')
-              .append( $('<span/>').addClass('who').attr('data-userid',user.id).text(user.name) )
+              .append( $('<span/>').addClass('who').attr('data-userId',user.id).text(user.name) )
               .append( $('<span/>').addClass('when').text(when) )
           )
           .append( $('<p/>').text(speech.text) )
