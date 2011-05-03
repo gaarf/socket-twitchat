@@ -63,7 +63,9 @@ jQuery(document).ready(function($) {
     function appendSpeech(speech) {
       var user = speech.user,
           $last = $convo.find('li:last'),
-          when = (new Date()).setTime(speech.time).toTimeString();
+          when = new Date();
+      when.setTime(parseInt(speech.time,10));
+      when = when.toTimeString();
       if($last.size() && $last.find('.meta .who').attr('data-userId') == user.id) {
         $last.append($('<p/>').text(speech.text));
         $last.find('.meta .who').text(user.name);
