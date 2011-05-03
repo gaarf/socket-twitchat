@@ -23,6 +23,7 @@ module.exports.configure = function(app, express) {
   });
 
   app.configure('development', function(){
+    console.log("... in dev mode");
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   });
 
