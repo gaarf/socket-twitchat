@@ -15,6 +15,8 @@ if (!module.parent) {
 
   socket.on('connection', function(client){
 
+    console.log(client);
+
     var user = roomManager.getUser(client);
 
     client.on('message', function(msg){ 
