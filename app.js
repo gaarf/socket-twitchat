@@ -14,7 +14,6 @@ if (!module.parent) {
     , room = roomManager.createRoom();
 
   socket.on('connection', function(client){
-    console.log("CONNECTION", client.connection.remoteAddress);
 
     var user = roomManager.getUser(client);
 

@@ -96,9 +96,8 @@ jQuery(document).ready(function($) {
             var isYou = (mySessionId == this.id);
             $('<li/>')
               .addClass( isYou ? 'isyou' : '')
-              .attr('data-id', this.id)
               .append( $('<p/>').addClass('name').append( $( isYou ? '<a href="#" title="click to rename"/>' : '<span/>').text(this.name) ) )
-              .append( $('<p/>').addClass('ip').text(this.ip) )
+              .append( $('<p/>').addClass('meta').text(this.id) )
               .appendTo($roster);
           });
         break;
