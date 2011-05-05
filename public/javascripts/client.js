@@ -21,6 +21,7 @@ jQuery(document).ready(function($) {
     }
 
     setName();
+    $input.focus();
 
     $compose
       .bind('submit', function(e) {
