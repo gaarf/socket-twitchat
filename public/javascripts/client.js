@@ -3,12 +3,11 @@ jQuery(document).ready(function($) {
   var $page = $('#page-index'),
       $roster = $page.find('.chatroom ul.roster'),
       $convo = $page.find('.chatroom ol.conversation'),
-      $compose = $page.find('.chatroom form.compose');
+      $compose = $page.find('.chatroom form.compose'),
+      $input = $compose.find('input');
 
   var socket = new io.Socket();
   socket.connect();
-
-
 
 
   socket.on('connect', function(){
@@ -26,9 +25,8 @@ jQuery(document).ready(function($) {
     $compose
       .bind('submit', function(e) {
         e.preventDefault();
-        var $input = $(this).find('input'),
-            val = $input.val();
-        if(val) {
+        var val = $input.val();
+        if(val.length) {
           $input.val('');
           socket.send(JSON.stringify({'compo':val}));
         }
@@ -96,7 +94,7 @@ jQuery(document).ready(function($) {
             var isYou = (mySessionId == this.id);
             $('<li/>')
               .addClass( isYou ? 'isyou' : '')
-              .append( $('<p/>').addClass('name').append( $( isYou ? '<a href="#" title="click to rename"/>' : '<span/>').text(this.name) ) )
+              .append( $('<p/>').addClass('name').append( $( isYou ? '<a href="#rename" title="click to rename"/>' : '<span/>').text(this.name) ) )
               .append( $('<p/>').addClass('meta').text(this.id) )
               .appendTo($roster);
           });
