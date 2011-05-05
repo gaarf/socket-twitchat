@@ -21,7 +21,6 @@ jQuery(document).ready(function($) {
     }
 
     setName();
-    $input.focus();
 
     $compose
       .bind('submit', function(e) {
@@ -49,7 +48,9 @@ jQuery(document).ready(function($) {
           var $this = $(this);
           $this.jqDrag($this.find('.titlebar')).jqResize($this.find('.resize'));
         })
-        .animate({height: $(window).height() - 99});
+        .animate({height: $(window).height() - 99}, function() {
+          $input.focus();
+        });
   });
 
 
