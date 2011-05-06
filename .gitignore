@@ -2,4 +2,4 @@
 logs/*
 *.log
 node_modules/*
-etc/setenv.sh
+etc/env.json
