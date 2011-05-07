@@ -12,42 +12,17 @@ if (!module.parent) {
     , io = require('socket.io') // socket.io, I choose you
     , socket = io.listen(app)
     , roomManager = require('./lib/chatrooms.js')
-    , room = roomManager.createRoom()
-    , TwitterStream = require('./lib/twitter.js').Stream
-    , stackOfTweets = []
-    , stream = null;
+    , room = roomManager.createRoom();
 
-  function initStream() {
-    if(stream) {
-      stream.stop();
-    }
-    stream = new TwitterStream();
-    stream.on('tweet', function(tweet) {
-      stackOfTweets.push(tweet);
-    });
-    stream.start();
-  }
 
-  // no more than one tweet per second
-  setInterval(function() {
-    if(stackOfTweets.length) {
-      console.log('sending tweet to clients');
-      socket.broadcast(JSON.stringify({ 'tweet': stackOfTweets.pop() }));
-      stackOfTweets = [];
-    }
-  }, 1000);
+  /* ================================================================ managing clients */
 
   socket.on('connection', function(client){
-
-    if(_.size(socket.clients) == 1) {
-      console.log('first client connected');
-      initStream();
-    }
 
     var user = roomManager.getUser(client);
 
     client.on('message', function(msg){ 
-      console.log("MESSAGE", msg);
+      console.log(">>>", msg);
 
       var obj = JSON.parse(msg);
 
@@ -62,13 +37,13 @@ if (!module.parent) {
 
     client.on('disconnect', function(){ 
       roomManager.removeUser(client);
-      if(_.size(socket.clients) == 1) {
-        console.log('last client disconnected');
-        stream.stop();
-      }
     });
 
   });
+
+
+
+  /* ================================================================ chatroom activity */
 
   room.on('roster-update', function() {
     socket.broadcast(JSON.stringify({ 'roster': this.roster }));
@@ -78,5 +53,12 @@ if (!module.parent) {
     socket.broadcast(JSON.stringify({ 'speech': msg }));
   });
 
-  
+
+
+  /* ================================================================ tweet activity */
+
+  setInterval(function() {
+    socket.broadcast(JSON.stringify({ 'tweets': room.getTweets(1) }));
+  }, 2222);
+
 }

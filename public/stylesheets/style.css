@@ -219,6 +219,10 @@ footer {
   line-height:22px;
 }
 #page-index .draggable .content {
+  position:absolute;
+  top:22px; right:0; left:0; bottom:0;
+  overflow-x:hidden;
+  overflow-y:auto;
 }
 #page-index .draggable .resize {
   position:absolute;
@@ -237,7 +241,7 @@ footer {
   position:absolute;
   left:100px;
   right:0;
-  top:22px;
+  top:0;
   overflow-x:hidden;
   overflow-y:auto;
 }
@@ -308,7 +312,48 @@ footer {
 
 #page-index div.twitstream {
   left:510px;
+  overflow:hidden;
 }
+
+#page-index div.twitstream ol.tweets {
+  list-style-type: none;
+  margin:0;
+}
+
+.tweets li {
+  position:relative;
+  margin:5px;
+  padding:5px 5px 5px 58px;
+  background-color:white;
+  border-radius:5px;
+  min-height:48px;
+}
+
+.tweets .meta {
+  font-size:77%;
+}
+.tweets .meta a {
+  color:gray;
+  text-decoration:none;
+}
+.tweets .meta a:hover {
+  text-decoration:underline;
+}
+
+.tweets .meta a.who {
+  font-weight:bold;
+  margin-right:1em;
+}
+
+.tweets .meta a.who img {
+  position:absolute;
+  left:5px;
+  height:48px;
+  width:48px;
+}
+
+
+
 
 
 
