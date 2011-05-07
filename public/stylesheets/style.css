@@ -197,7 +197,7 @@ footer {
   font-size:200%;
 }
 
-/*#page-index .twitstream,*/
+#page-index .twitstream,
 #page-index.loaded .chatroom {
   display:block;
 }

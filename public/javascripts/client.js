@@ -113,6 +113,10 @@ jQuery(document).ready(function($) {
           });
         break;
 
+        case 'tweet':
+          console.info(obj);
+        break;
+
       }
     });
   });

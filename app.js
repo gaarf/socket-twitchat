@@ -8,12 +8,41 @@ if (!module.parent) {
   app.listen(3000);
   console.log("Express server listening on port %d", app.address().port);
 
-  var io = require('socket.io') // socket.io, I choose you
+  var _ = require('underscore')
+    , io = require('socket.io') // socket.io, I choose you
     , socket = io.listen(app)
     , roomManager = require('./lib/chatrooms.js')
-    , room = roomManager.createRoom();
+    , room = roomManager.createRoom()
+    , TwitterStream = require('./lib/twitter.js').Stream
+    , stackOfTweets = []
+    , stream = null;
+
+  function initStream() {
+    if(stream) {
+      stream.stop();
+    }
+    stream = new TwitterStream();
+    stream.on('tweet', function(tweet) {
+      stackOfTweets.push(tweet);
+    });
+    stream.start();
+  }
+
+  // no more than one tweet per second
+  setInterval(function() {
+    if(stackOfTweets.length) {
+      console.log('sending tweet to clients');
+      socket.broadcast(JSON.stringify({ 'tweet': stackOfTweets.pop() }));
+      stackOfTweets = [];
+    }
+  }, 1000);
 
   socket.on('connection', function(client){
+
+    if(_.size(socket.clients) == 1) {
+      console.log('first client connected');
+      initStream();
+    }
 
     var user = roomManager.getUser(client);
 
@@ -33,6 +62,10 @@ if (!module.parent) {
 
     client.on('disconnect', function(){ 
       roomManager.removeUser(client);
+      if(_.size(socket.clients) == 1) {
+        console.log('last client disconnected');
+        stream.stop();
+      }
     });
 
   });
@@ -45,4 +78,5 @@ if (!module.parent) {
     socket.broadcast(JSON.stringify({ 'speech': msg }));
   });
 
+  
 }
