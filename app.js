@@ -32,7 +32,7 @@ if (!module.parent) {
 
     user.on('name-update', function(me) {
       user.joinRoom(room);
-      client.send(JSON.stringify({ 'buffer': room.buffer, 'join':me }));
+      client.send(JSON.stringify({ 'buffer': room.buffer, 'topic': {what:room.topic}, 'join':me }));
     });
 
     user.on('slash-response', function(msg, addCls) {
@@ -45,8 +45,8 @@ if (!module.parent) {
 
   /* ================================================================ chatroom activity */
 
-  room.on('topic-update', function() {
-    socket.broadcast(JSON.stringify({ 'topic': this.topic }));
+  room.on('topic-update', function(who) {
+    socket.broadcast(JSON.stringify({ 'topic': {what:this.topic, who:who} }));
   });
 
   room.on('roster-update', function(what, who) {
@@ -64,7 +64,7 @@ if (!module.parent) {
   /* ================================================================ tweet activity */
 
   setInterval(function() {
-    socket.broadcast(JSON.stringify({ 'tweets': room.getTweets(1) }));
+    socket.broadcast(JSON.stringify({ 'tweets': room.getTweets() }));
   }, 2222);
 
 }

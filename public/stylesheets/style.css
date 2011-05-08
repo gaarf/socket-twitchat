@@ -162,6 +162,7 @@ header {
   margin:15px 0;
   font-size:200%;
   font-weight:100;
+  text-align:center;
 }
 
 #main {
@@ -285,7 +286,6 @@ footer {
 }
 #page-index div.chatroom .conversation li.disconnect {
   background-image:url(http://cdn.dustball.com/disconnect.png);
-  font-weight:bold;
   color:red;
 }
 #page-index div.chatroom .conversation li.notimplemented {
@@ -300,6 +300,10 @@ footer {
 #page-index div.chatroom .conversation li.gone {
   background-image:url(http://cdn.dustball.com/arrow_left.png);
 }
+#page-index div.chatroom .conversation li.topic {
+  background-image:url(http://cdn.dustball.com/application_edit.png);
+}
+
 
 
 #page-index div.chatroom .conversation .meta,

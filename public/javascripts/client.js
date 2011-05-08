@@ -10,18 +10,24 @@ jQuery(document).ready(function($) {
   var socket = new io.Socket();
   socket.connect();
 
+  $convo.delegate('.disconnect a', 'click', function(e) {
+    e.preventDefault();
+    window.location.reload();
+  });
+
+  $roster.delegate('a', 'click', function(e) {
+    e.preventDefault();
+    socket.send(JSON.stringify({'slash':['help','nick']}));
+    $input.val("/nick ").focus();
+  });
 
   socket.on('connect', function(){
     console.info('socket connected');
 
-    function setName(name) {
-      socket.send(JSON.stringify({'hello': {
-        ua: navigator.userAgent,
-        name: name
-      }}));
-    }
-
-    setName();
+    socket.send(JSON.stringify({'hello': {
+      ua: navigator.userAgent,
+      name: name
+    }}));
 
     $compose
       .bind('submit', function(e) {
@@ -35,15 +41,6 @@ jQuery(document).ready(function($) {
           else {
             socket.send(JSON.stringify({'compo':val}));
           }
-        }
-      });
-
-    $roster
-      .delegate('a', 'click', function(e) {
-        e.preventDefault();
-        var name = prompt('Change your name:');
-        if(name.length) {
-          setName(name);
         }
       });
 
@@ -73,7 +70,7 @@ jQuery(document).ready(function($) {
             var isYou = (mySessionId == this.id);
             $('<li/>')
               .addClass( isYou ? 'isyou' : '')
-              .append( $('<p/>').addClass('name').append( $( isYou ? '<a href="#rename" title="click to rename"/>' : '<span/>').text(this.name) ) )
+              .append( $('<p/>').addClass('name').append( $( isYou ? '<a href="#rename" />' : '<span/>').text(this.name) ) )
               .append( $('<p/>').addClass('meta').text(this.id) )
               .appendTo($roster);
           });
@@ -95,8 +92,11 @@ jQuery(document).ready(function($) {
         break;
 
         case 'topic':
-          setTitle(obj);
-          appendSystem('The topic is now <strong>'+obj+'</strong>.');
+          $twitstream.empty();
+          setTitle(obj.what);
+          if(obj.who) {
+            appendSystem( 'The topic was '+(obj.what?'changed':'cleared')+' by <strong>'+obj.who.name+'</strong>.', 'topic' );
+          }
         break;
 
         case 'system':
@@ -127,11 +127,17 @@ jQuery(document).ready(function($) {
   socket.on('disconnect', function(){
     $roster.empty();
     $compose.children().attr('disabled', true);
-    appendSystem('Socket disconnected.', 'disconnect')
+    appendSystem('<strong>Socket disconnected.</strong> <a href="#reload">reload</a>', 'disconnect');
   });
 
   function setTitle(str) {
-    $('title,header').text(str);
+    if(str) {
+      $('title,header').text( str );
+    }
+    else {
+      $('title').text('socket-streamies');
+      $('header').html('use <kbd>/topic</kbd>!');
+    }
   }
 
   function appendSystem(msg, addCls) {
