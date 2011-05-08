@@ -25,7 +25,7 @@ module.exports = {
       { url: '/help' },
       { status: 200 },
       function(res){
-        assert.includes(res.body, 'RTFM');
+        assert.includes(res.body, 'page-help');
       });
   },
 
@@ -34,7 +34,7 @@ module.exports = {
       { url: '/404' },
       { status: 404 },
       function(res){
-        assert.includes(res.body, '404');
+        assert.includes(res.body, 'does not exist');
       });
   }
 
