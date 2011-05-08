@@ -275,7 +275,7 @@ footer {
 }
 
 #page-index div.chatroom .conversation li.isyou {
-  background-color:#DDD;
+  background-color:#EEE;
 }
 
 #page-index div.chatroom .conversation li.system {
@@ -283,15 +283,22 @@ footer {
   padding-left:20px;
   font-size:77%;
 }
+#page-index div.chatroom .conversation li.disconnect {
+  background-image:url(http://cdn.dustball.com/disconnect.png);
+  font-weight:bold;
+  color:red;
+}
+#page-index div.chatroom .conversation li.notimplemented {
+  background-image:url(http://cdn.dustball.com/cog_error.png);
+}
+#page-index div.chatroom .conversation li.help {
+  background-image:url(http://cdn.dustball.com/help.png);
+}
 #page-index div.chatroom .conversation li.join {
   background-image:url(http://cdn.dustball.com/user_go.png);
 }
 #page-index div.chatroom .conversation li.gone {
-  background-image:url(http://cdn.dustball.com/disconnect.png);
-}
-
-#page-index div.chatroom .conversation li.help {
-  background-image:url(http://cdn.dustball.com/help.png);
+  background-image:url(http://cdn.dustball.com/arrow_left.png);
 }
 
 
@@ -309,6 +316,7 @@ footer {
 }
 #page-index div.chatroom .conversation .meta .who {
   float:left;
+  font-weight:bold;
 }
 
 #page-index div.chatroom form.compose{
@@ -360,7 +368,10 @@ footer {
 
 .tweets .meta a.who {
   font-weight:bold;
-  margin-right:1em;
+}
+.tweets .meta a.when {
+  position:absolute;
+  right:5px;
 }
 
 .tweets .meta a.who img {

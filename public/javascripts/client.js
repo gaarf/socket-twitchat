@@ -94,6 +94,11 @@ jQuery(document).ready(function($) {
           }
         break;
 
+        case 'topic':
+          setTitle(obj);
+          appendSystem('The topic is now <strong>'+obj+'</strong>.');
+        break;
+
         case 'system':
           appendSystem(obj.msg, obj.addCls);
         break;
@@ -122,8 +127,12 @@ jQuery(document).ready(function($) {
   socket.on('disconnect', function(){
     $roster.empty();
     $compose.children().attr('disabled', true);
-    alert('socket disconnected');
+    appendSystem('Socket disconnected.', 'disconnect')
   });
+
+  function setTitle(str) {
+    $('title,header').text(str);
+  }
 
   function appendSystem(msg, addCls) {
     $('<li/>')
@@ -211,7 +220,7 @@ jQuery(document).ready(function($) {
   function niceTime(input) {
     var d = new Date();
     d.setTime( input.toString().indexOf(' ')!=-1 ? Date.parse(input) : parseInt(input,10) );
-    return d.toTimeString();
+    return d.toLocaleTimeString();
   }
 
   // function linkifyUrls(input){

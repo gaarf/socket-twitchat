@@ -35,7 +35,7 @@ if (!module.parent) {
       client.send(JSON.stringify({ 'buffer': room.buffer, 'join':me }));
     });
 
-    user.on('system-response', function(msg, addCls) {
+    user.on('slash-response', function(msg, addCls) {
       client.send(JSON.stringify({ 'system': {msg:msg, addCls:addCls} }));
     });
 
