@@ -197,7 +197,7 @@ footer {
   font-size:200%;
 }
 
-#page-index .twitstream,
+#page-index.loaded .twitstream,
 #page-index.loaded .chatroom {
   display:block;
 }
@@ -271,11 +271,29 @@ footer {
 #page-index div.chatroom .conversation li {
   background-color:white;
   border-radius:3px;
+  padding:3px;
 }
 
 #page-index div.chatroom .conversation li.isyou {
-  background-color:#EEE;
+  background-color:#DDD;
 }
+
+#page-index div.chatroom .conversation li.system {
+  background: transparent url(http://cdn.dustball.com/information.png) no-repeat 1px 3px;
+  padding-left:20px;
+  font-size:77%;
+}
+#page-index div.chatroom .conversation li.join {
+  background-image:url(http://cdn.dustball.com/user_go.png);
+}
+#page-index div.chatroom .conversation li.gone {
+  background-image:url(http://cdn.dustball.com/disconnect.png);
+}
+
+#page-index div.chatroom .conversation li.help {
+  background-image:url(http://cdn.dustball.com/help.png);
+}
+
 
 #page-index div.chatroom .conversation .meta,
 #page-index div.chatroom .conversation p {

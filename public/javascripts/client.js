@@ -62,80 +62,8 @@ jQuery(document).ready(function($) {
   socket.on('message', function(str){
     var mySessionId = this.transport.sessionid;
 
-    function appendSpeech(speech) {
-      var user = speech.user,
-          $last = $convo.find('li:last'),
-          when = niceTime(speech.time);
-      if($last.size() && $last.find('.meta .who').attr('data-userId') == user.id) {
-        $last.append($('<p/>').text(speech.text));
-        $last.find('.meta .who').text(user.name);
-        $last.find('.meta .when').text(when);
-      }
-      else {
-        $('<li/>')
-          .addClass(user.id==mySessionId?'isyou':'')
-          .append(
-            $('<div/>')
-              .addClass('meta')
-              .append( 
-                $('<span/>')
-                  .addClass('who')
-                  .attr('data-userId',user.id)
-                  .text(user.name)
-              )
-              .append( 
-                $('<span/>')
-                  .addClass('when')
-                  .text(when)
-              )
-          )
-          .append(
-            $('<p/>')
-              .text(speech.text)
-          )
-          .appendTo($convo);
-      }
-      $convo.scrollTop($convo[0]['scrollHeight']);
-    }
-
-    function preprendTweet(tweet) {
-      console.info(tweet);
-      var userUrl = 'http://twitter.com/'+tweet.user.screen_name;
-      $('<li/>')
-        .append(
-          $('<div/>')
-            .addClass('meta')
-            .append( 
-              $('<a target="_blank"/>')
-                .addClass('who')
-                .attr('href',userUrl)
-                .append(
-                  $('<img />')
-                    .attr('src', tweet.user.profile_image_url)
-                )
-                .append(
-                  $('<span />')
-                    .text(tweet.user.name)
-                )
-            )
-            .append( 
-              $('<a target="_blank"/>')
-                .addClass('when')
-                .attr('href',userUrl+'/status/'+tweet.id_str)
-                .text(niceTime(tweet.created_at))
-            )
-        )
-        .append( 
-          $('<p/>')
-            .text(tweet.text) 
-        )
-        .hide()
-        .prependTo($twitstream)
-        .fadeIn();
-    }
-
     $.each(JSON.parse(str), function(k,obj) {
-      console.log('received '+k, obj);
+      // console.log(k,obj)
 
       switch(k) {
 
@@ -151,14 +79,33 @@ jQuery(document).ready(function($) {
           });
         break;
 
+        case 'join':
+          if(mySessionId != obj.id) {
+            appendSystem('<strong>'+obj.name+'</strong> has joined.', 'join');
+          }
+          else {
+            appendSystem('You are now named <strong>'+obj.name+'</strong>.');
+          }
+        break;
+
+        case 'gone':
+          if(mySessionId != obj.id) {
+            appendSystem('<strong>'+obj.name+'</strong> is gone.', 'gone');
+          }
+        break;
+
+        case 'system':
+          appendSystem(obj.msg, obj.addCls);
+        break;
+
         case 'speech':
-          appendSpeech(obj);
+          appendSpeech(obj, mySessionId);
         break;
 
         case 'buffer':
           $convo.empty();
           $.each(obj,function() {
-            appendSpeech(this);
+            appendSpeech(this, mySessionId);
           });
         break;
 
@@ -178,16 +125,98 @@ jQuery(document).ready(function($) {
     alert('socket disconnected');
   });
 
+  function appendSystem(msg, addCls) {
+    $('<li/>')
+      .addClass('system '+(addCls||''))
+      .append( $('<p/>').html(msg) )
+      .appendTo($convo);
+    scrollConvo();
+  }
 
+  function appendSpeech(speech, mySessionId) {
+    var user = speech.user,
+        $last = $convo.find('li:last'),
+        when = niceTime(speech.time);
+    if($last.size() && $last.find('.meta .who').attr('data-userId') == user.id) {
+      $last.append($('<p/>').text(speech.text));
+      $last.find('.meta .who').text(user.name);
+      $last.find('.meta .when').text(when);
+    }
+    else {
+      $('<li/>')
+        .addClass(user.id==mySessionId?'isyou':'')
+        .append(
+          $('<div/>')
+            .addClass('meta')
+            .append( 
+              $('<span/>')
+                .addClass('who')
+                .attr('data-userId',user.id)
+                .text(user.name)
+            )
+            .append( 
+              $('<span/>')
+                .addClass('when')
+                .text(when)
+            )
+        )
+        .append(
+          $('<p/>')
+            .text(speech.text)
+        )
+        .appendTo($convo);
+    }
+    scrollConvo();
+  }
+
+  function scrollConvo() {
+    $convo.scrollTop($convo[0]['scrollHeight']);
+  }
+
+  function preprendTweet(tweet) {
+    var userUrl = 'http://twitter.com/'+tweet.user.screen_name;
+    $('<li/>')
+      .append(
+        $('<div/>')
+          .addClass('meta')
+          .append( 
+            $('<a target="_blank"/>')
+              .addClass('who')
+              .attr('href',userUrl)
+              .append(
+                $('<img />')
+                  .attr('src', tweet.user.profile_image_url)
+              )
+              .append(
+                $('<span />')
+                  .text(tweet.user.name)
+              )
+          )
+          .append( 
+            $('<a target="_blank"/>')
+              .addClass('when')
+              .attr('href',userUrl+'/status/'+tweet.id_str)
+              .text(niceTime(tweet.created_at))
+          )
+      )
+      .append( 
+        $('<p/>')
+          .text(tweet.text) 
+      )
+      .hide()
+      .prependTo($twitstream)
+      .fadeIn();
+  }
 
   function niceTime(input) {
     var d = new Date();
     d.setTime( input.toString().indexOf(' ')!=-1 ? Date.parse(input) : parseInt(input,10) );
     return d.toTimeString();
   }
-  function linkifyUrls(input){
-    return input.toString().replace( /https?:\/\/[^\s]+/g, function(a) { return '<a href="'+a+'">'+a+'</a>'; } );
-  }
+
+  // function linkifyUrls(input){
+  //   return input.toString().replace( /https?:\/\/[^\s]+/g, function(a) { return '<a href="'+a+'">'+a+'</a>'; } );
+  // }
 
 
 });

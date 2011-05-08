@@ -23,20 +23,20 @@ if (!module.parent) {
 
     client.on('message', function(msg){ 
       console.log(">>>", msg);
-
-      var obj = JSON.parse(msg);
-
-      user.processMessage(obj);
-
-      if('hello' in obj) {
-        user.joinRoom(room);
-        client.send(JSON.stringify({ 'buffer': room.buffer }));
-      }
-
+      user.processMessage(JSON.parse(msg));
     });
 
     client.on('disconnect', function(){ 
       roomManager.removeUser(client);
+    });
+
+    user.on('name-update', function(me) {
+      user.joinRoom(room);
+      client.send(JSON.stringify({ 'buffer': room.buffer, 'join':me }));
+    });
+
+    user.on('system-response', function(msg, addCls) {
+      client.send(JSON.stringify({ 'system': {msg:msg, addCls:addCls} }));
     });
 
   });
@@ -45,8 +45,14 @@ if (!module.parent) {
 
   /* ================================================================ chatroom activity */
 
-  room.on('roster-update', function() {
-    socket.broadcast(JSON.stringify({ 'roster': this.roster }));
+  room.on('topic-update', function() {
+    socket.broadcast(JSON.stringify({ 'topic': this.topic }));
+  });
+
+  room.on('roster-update', function(what, who) {
+    var out = { 'roster': this.roster };
+    out[what] = who;
+    socket.broadcast(JSON.stringify(out));
   });
 
   room.on('conversation-update', function(msg) {
