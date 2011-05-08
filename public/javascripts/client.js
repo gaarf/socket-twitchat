@@ -92,16 +92,16 @@ jQuery(document).ready(function($) {
         break;
 
         case 'topic':
-          $twitstream.empty();
           setTitle(obj.what);
           if(obj.who) {
+            $twitstream.empty();
             appendSystem( 'The topic was '+(obj.what?'changed':'cleared')+' by <strong>'+obj.who.name+'</strong>.', 'topic' );
           }
         break;
 
         case 'stop':
           if(obj.who) {
-            appendSystem( 'The stream was stopped by <strong>'+obj.who.name+'</strong>.', 'topic' );
+            appendSystem( 'The stream was stopped by <strong>'+obj.who.name+'</strong>.', 'stop' );
           }
         break;
 

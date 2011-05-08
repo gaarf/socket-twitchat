@@ -303,7 +303,9 @@ footer {
 #page-index div.chatroom .conversation li.topic {
   background-image:url(http://cdn.dustball.com/application_edit.png);
 }
-
+#page-index div.chatroom .conversation li.stop {
+  background-image:url(http://cdn.dustball.com/stop.png);
+}
 
 
 #page-index div.chatroom .conversation .meta,

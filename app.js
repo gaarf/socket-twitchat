@@ -50,7 +50,7 @@ if (!module.parent) {
   });
 
   room.on('stream-stop', function(who) {
-    socket.broadcast(JSON.stringify({ 'stop': {who:who} }));
+    socket.broadcast(JSON.stringify({ 'stop': {who:who}, 'topic': {what:this.topic+' (stopped)'} }));
   });
 
   room.on('roster-update', function(what, who) {
