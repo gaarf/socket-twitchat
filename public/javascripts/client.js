@@ -99,6 +99,12 @@ jQuery(document).ready(function($) {
           }
         break;
 
+        case 'stop':
+          if(obj.who) {
+            appendSystem( 'The stream was stopped by <strong>'+obj.who.name+'</strong>.', 'topic' );
+          }
+        break;
+
         case 'system':
           appendSystem(obj.msg, obj.addCls);
         break;

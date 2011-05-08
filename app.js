@@ -49,6 +49,10 @@ if (!module.parent) {
     socket.broadcast(JSON.stringify({ 'topic': {what:this.topic, who:who} }));
   });
 
+  room.on('stream-stop', function(who) {
+    socket.broadcast(JSON.stringify({ 'stop': {who:who} }));
+  });
+
   room.on('roster-update', function(what, who) {
     var out = { 'roster': this.roster };
     out[what] = who;
