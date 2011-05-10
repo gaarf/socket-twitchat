@@ -30,9 +30,12 @@ if (!module.parent) {
       roomManager.removeUser(client);
     });
 
+    var sendHelp = _.once(function() { user.processSlash(['help']); }); // send help automagically the first time
+
     user.on('name-update', function(me) {
       user.joinRoom(room);
       client.send(JSON.stringify({ 'buffer': room.buffer, 'topic': {what:room.topic}, 'join':me }));
+      sendHelp();
     });
 
     user.on('slash-response', function(msg, addCls) {
@@ -55,7 +58,7 @@ if (!module.parent) {
 
   room.on('roster-update', function(what, who) {
     var out = { 'roster': this.roster };
-    out[what] = who;
+    out[what] = who; // fun!
     socket.broadcast(JSON.stringify(out));
   });
 

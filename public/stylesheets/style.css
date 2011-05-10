@@ -306,7 +306,14 @@ footer {
 #page-index div.chatroom .conversation li.stop {
   background-image:url(http://cdn.dustball.com/stop.png);
 }
+#page-index div.chatroom .conversation li.oops {
+  background-image:url(http://cdn.dustball.com/shape_square_error.png);
+}
 
+#page-index div.chatroom .conversation li.topic em {
+  padding:0 3px;
+  background-color:yellow;
+}
 
 #page-index div.chatroom .conversation .meta,
 #page-index div.chatroom .conversation p {

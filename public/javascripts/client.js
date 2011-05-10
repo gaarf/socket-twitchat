@@ -95,7 +95,12 @@ jQuery(document).ready(function($) {
           setTitle(obj.what);
           if(obj.who) {
             $twitstream.empty();
-            appendSystem( 'The topic was '+(obj.what?'changed':'cleared')+' by <strong>'+obj.who.name+'</strong>.', 'topic' );
+            if(obj.what) {
+              appendSystem( 'The topic was changed to <em>'+obj.what+'</em> by <strong>'+obj.who.name+'</strong>.', 'topic' );
+            }
+            else {
+              appendSystem( 'The topic was cleared by <strong>'+obj.who.name+'</strong>.', 'topic' );
+            }
           }
         break;
 
@@ -137,13 +142,8 @@ jQuery(document).ready(function($) {
   });
 
   function setTitle(str) {
-    if(str) {
-      $('title,header').text( str );
-    }
-    else {
-      $('title').text('socket-streamies');
-      $('header').html('use <kbd>/topic</kbd>!');
-    }
+    $('title').text('TwitChat'+(str&&' / '+str));
+    $('header')[str?'text':'html'](str||'use <kbd>/topic</kbd>!');
   }
 
   function appendSystem(msg, addCls) {
