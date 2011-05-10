@@ -1,15 +1,12 @@
 {
   "author": "AD (http://gaarf.info)",
-  "name": "socket-streamies",
+  "name": "socket-twitchat",
   "description": "A nodejs experiment",
-  "version": "0.5.2",
+  "version": "0.5.4",
   "repository": {
     "url": ""
   },
   "main": "app.js",
-  "scripts": {
-    "test": "expresso"
-  },
   "engines": {
     "node": "*"
   },
@@ -19,8 +16,5 @@
     "ejs": ">=0.4.1",
     "socket.io": ">=0.6.17",
     "oauth": ">=0.9.0"
-  },
-  "devDependencies": {
-    "expresso": "*"
   }
 }
