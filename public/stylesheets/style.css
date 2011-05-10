@@ -284,6 +284,10 @@ footer {
   padding-left:20px;
   font-size:77%;
 }
+#page-index div.chatroom .conversation li.system em {
+  padding:0 3px;
+  background-color:yellow;
+}
 #page-index div.chatroom .conversation li.disconnect {
   background-image:url(http://cdn.dustball.com/disconnect.png);
   color:red;
@@ -308,11 +312,6 @@ footer {
 }
 #page-index div.chatroom .conversation li.oops {
   background-image:url(http://cdn.dustball.com/shape_square_error.png);
-}
-
-#page-index div.chatroom .conversation li.topic em {
-  padding:0 3px;
-  background-color:yellow;
 }
 
 #page-index div.chatroom .conversation .meta,

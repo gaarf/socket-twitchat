@@ -40,7 +40,7 @@ jQuery(document).ready(function($) {
             switch(o[0]) {
               case 'clear':
                 $convo.empty();
-                twitstream.empty();
+                $twitstream.empty();
               break;
 
               default:
