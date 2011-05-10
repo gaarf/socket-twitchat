@@ -152,7 +152,7 @@ jQuery(document).ready(function($) {
   });
 
   function setTitle(str) {
-    $('title').text('TwitChat'+(str&&' / '+str));
+    $('title').text('TwitChat'+(str?' / '+str:''));
     $('header')[str?'text':'html'](str||'use <kbd>/topic</kbd>!');
   }
 
