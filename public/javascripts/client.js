@@ -36,7 +36,17 @@ jQuery(document).ready(function($) {
         if(val.length) {
           $input.val('');
           if(val.charAt(0)=='/') {
-            socket.send(JSON.stringify({'slash':val.slice(1).split(' ')}));
+            var o = val.slice(1).split(' ');
+            switch(o[0]) {
+              case 'clear':
+                $convo.empty();
+                twitstream.empty();
+              break;
+
+              default:
+                socket.send(JSON.stringify({'slash':o}));
+              break;
+            }
           }
           else {
             socket.send(JSON.stringify({'compo':val}));
