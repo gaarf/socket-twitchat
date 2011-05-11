@@ -4,7 +4,7 @@
   "description": "A nodejs experiment",
   "version": "0.6.2",
   "repository": {
-    "url": ""
+    "url": "https://github.com/gaarf/socket-twitchat"
   },
   "main": "app.js",
   "engines": {
