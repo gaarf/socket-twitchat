@@ -1,17 +1,18 @@
-# express-boilerplate
+# socket-twitchat
 
-A basic [Express](http://expressjs.com/) app with a layout based on [HTML5 Boilerplate](https://github.com/paulirish/html5-boilerplate).
+A Twitter-enabled chatroom. All participants see the same stream of live twitter activity matching the current topic.
 
-#### Improvements over Express scaffolding:
+#### Features:
 
-  * Clean app.js
-  * Separate routes.js file
-  * Favicon
-  * Custom 404
-  * zomg Google Analytics
+  * browser-based IRC-like chatroom
+  * Change your name with */nick yournewname*
+  * Change the shared topic with */topic newtopic*
 
-#### Includes some amazing libraries:
+#### Based on:
 
+  * NodeJS
+  * Express
+  * Socket.io
   * jQuery
-  * Modernizr
+  * jqDnR-touch
   * YUI CSS Reset/Fonts
