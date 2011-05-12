@@ -136,8 +136,8 @@ jQuery(document).ready(function($) {
         break;
 
         case 'tweets':
-          $.each(obj,function() {
-            preprendTweet(this);
+          $.each(obj,function(i, o) {
+            preprendTweet(o,i==0);
           });
         break;
 
@@ -204,7 +204,7 @@ jQuery(document).ready(function($) {
     $convo.scrollTop($convo[0]['scrollHeight']);
   }
 
-  function preprendTweet(tweet) {
+  function preprendTweet(tweet, slide) {
     var userUrl = 'http://twitter.com/'+tweet.user.screen_name;
     $('<li/>')
       .append(
@@ -236,7 +236,9 @@ jQuery(document).ready(function($) {
       )
       .hide()
       .prependTo($twitstream)
-      .fadeIn();
+      [slide?'slideDown':'fadeIn']('fast', function() {
+        $(this).addClass('shown');
+      });
   }
 
   function niceTime(input) {

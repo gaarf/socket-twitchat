@@ -365,6 +365,9 @@ footer {
   padding:5px 5px 5px 58px;
   background-color:white;
   border-radius:5px;
+  overflow:hidden;
+}
+.tweets li.shown {
   min-height:48px;
 }
 
@@ -392,6 +395,7 @@ footer {
   left:5px;
   height:48px;
   width:48px;
+  border-radius:2px;
 }
 
 
