@@ -212,6 +212,7 @@ footer {
   width:490px;
   min-height:300px;
   border-radius:3px;
+  overflow:hidden;
 }
 #page-index .draggable .titlebar {
   padding:0 5px;
