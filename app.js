@@ -11,7 +11,7 @@ if (!module.parent) {
   var _ = require('underscore')
     , io = require('socket.io') // socket.io, I choose you
     , socket = io.listen(app)
-    , roomManager = require('./lib/chatrooms.js')
+    , roomManager = require('./lib/manager.js')
     , room = roomManager.createRoom();
 
 
@@ -38,8 +38,8 @@ if (!module.parent) {
       sendHelp();
     });
 
-    user.on('slash-response', function(msg, addCls) {
-      client.send(JSON.stringify({ 'system': {msg:msg, addCls:addCls} }));
+    user.on('slash-response', function(msg, cls) {
+      client.send(JSON.stringify({ 'system': {msg:msg, addCls:cls} }));
     });
 
   });
