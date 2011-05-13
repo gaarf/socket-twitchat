@@ -136,8 +136,9 @@ jQuery(document).ready(function($) {
         break;
 
         case 'tweets':
+          var single = (obj.length==1);
           $.each(obj,function(i, o) {
-            preprendTweet(o,i==0);
+            preprendTweet(o,single);
           });
         break;
 

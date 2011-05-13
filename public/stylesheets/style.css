@@ -212,7 +212,6 @@ footer {
   width:490px;
   min-height:300px;
   border-radius:3px;
-  overflow:hidden;
 }
 #page-index .draggable .titlebar {
   padding:0 5px;
@@ -236,6 +235,9 @@ footer {
   border-color: transparent orange orange transparent;
 }
 
+#page-index div.chatroom .content{
+  overflow:hidden;
+}
 #page-index div.chatroom ul.roster,
 #page-index div.chatroom ol.conversation {
   list-style-type:none;
