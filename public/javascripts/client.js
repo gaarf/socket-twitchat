@@ -29,11 +29,28 @@ jQuery(document).ready(function($) {
       name: name
     }}));
 
+    var strLastSubmit = '';
+
+    $input
+      .bind('keyup', function(e) {
+        switch(e.keyCode) {
+          case 38: // up arrow
+            if(strLastSubmit) {
+              $input.val(strLastSubmit);
+            }
+          break;
+          case 27: // escape
+            $input.val('');
+          break;
+        }
+      });
+
     $compose
       .bind('submit', function(e) {
         e.preventDefault();
         var val = $input.val();
         if(val.length) {
+          strLastSubmit = val;
           $input.val('');
           if(val.charAt(0)=='/') {
             var o = val.slice(1).split(' ');
