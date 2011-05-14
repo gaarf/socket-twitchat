@@ -322,7 +322,9 @@ footer {
   padding:2px;
 }
 
-
+#page-index div.chatroom .conversation div.image img {
+  max-width:100%;
+}
 
 #page-index div.chatroom .conversation .meta {
   font-size:77%;

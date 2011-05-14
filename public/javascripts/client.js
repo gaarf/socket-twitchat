@@ -182,12 +182,22 @@ jQuery(document).ready(function($) {
     scrollConvo();
   }
 
+  function spokenElement(s) {
+    if(s.image && 0===$convo.find('div.image img[src="'+s.image+'"]').size()) { // dont repost images
+      return $('<div class="image" />').append($('<img/>').attr('src', s.image).attr('title', s.text)); 
+    }
+    return $('<p/>').text( s.text );
+  }
+
   function appendSpeech(speech, mySessionId) {
+    console.log('speech', speech);
+
     var user = speech.user,
         $last = $convo.find('li:last'),
         when = niceTime(speech.time);
+
     if($last.size() && $last.find('.meta .who').attr('data-userId') == user.id) {
-      $last.append($('<p/>').text(speech.text));
+      $last.append(spokenElement(speech));
       $last.find('.meta .who').text(user.name);
       $last.find('.meta .when').text(when);
     }
@@ -195,24 +205,11 @@ jQuery(document).ready(function($) {
       $('<li/>')
         .addClass(user.id==mySessionId?'isyou':'')
         .append(
-          $('<div/>')
-            .addClass('meta')
-            .append( 
-              $('<span/>')
-                .addClass('who')
-                .attr('data-userId',user.id)
-                .text(user.name)
-            )
-            .append( 
-              $('<span/>')
-                .addClass('when')
-                .text(when)
-            )
+          $('<div class="meta" />')
+            .append( $('<span class="who" />').attr('data-userId',user.id).text(user.name) )
+            .append( $('<span class="when" />').text(when) )
         )
-        .append(
-          $('<p/>')
-            .text(speech.text)
-        )
+        .append(spokenElement(speech))
         .appendTo($convo);
     }
     scrollConvo();
@@ -229,29 +226,18 @@ jQuery(document).ready(function($) {
         $('<div/>')
           .addClass('meta')
           .append( 
-            $('<a target="_blank"/>')
-              .addClass('who')
+            $('<a target="_blank" class="who" />')
               .attr('href',userUrl)
-              .append(
-                $('<img />')
-                  .attr('src', tweet.user.profile_image_url)
-              )
-              .append(
-                $('<span />')
-                  .text(tweet.user.name)
-              )
+              .append( $('<img />').attr('src', tweet.user.profile_image_url) )
+              .append( $('<span />').text(tweet.user.name) )
           )
           .append( 
-            $('<a target="_blank"/>')
-              .addClass('when')
+            $('<a target="_blank" class="when" />')
               .attr('href',userUrl+'/status/'+tweet.id_str)
               .text(niceTime(tweet.created_at))
           )
       )
-      .append( 
-        $('<p/>')
-          .text(tweet.text) 
-      )
+      .append( $('<p/>').text(tweet.text) )
       .hide()
       .prependTo($twitstream)
       [slide?'slideDown':'fadeIn']('fast', function() {
