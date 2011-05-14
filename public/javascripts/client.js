@@ -5,21 +5,24 @@ jQuery(document).ready(function($) {
       $convo = $page.find('.chatroom ol.conversation'),
       $compose = $page.find('.chatroom form.compose'),
       $input = $compose.find('input'),
-      $twitstream = $page.find('.twitstream ol.tweets');
+      $twitstream = $page.find('.twitstream ol.tweets'); 
 
   var socket = new io.Socket();
   socket.connect();
+
 
   $convo.delegate('.disconnect a', 'click', function(e) {
     e.preventDefault();
     window.location.reload();
   });
 
+
   $roster.delegate('a', 'click', function(e) {
     e.preventDefault();
     socket.send(JSON.stringify({'slash':['help','nick']}));
     $input.val("/nick ").focus();
   });
+
 
   socket.on('connect', function(){
     console.info('socket connected');
@@ -83,8 +86,10 @@ jQuery(document).ready(function($) {
         });
   });
 
+
   socket.on('message', function(str){
-    var mySessionId = this.transport.sessionid;
+    var mySessionId = this.transport.sessionid,
+        doAlert = false;
 
     $.each(JSON.parse(str), function(k,obj) {
       // console.log(k,obj)
@@ -106,6 +111,7 @@ jQuery(document).ready(function($) {
         case 'join':
           if(mySessionId != obj.id) {
             appendSystem('<strong>'+obj.name+'</strong> has joined.', 'join');
+            doAlert = k;
           }
           else {
             appendSystem('You are now named <strong>'+obj.name+'</strong>.');
@@ -115,11 +121,12 @@ jQuery(document).ready(function($) {
         case 'gone':
           if(mySessionId != obj.id) {
             appendSystem('<strong>'+obj.name+'</strong> is gone.', 'gone');
+            doAlert = k;
           }
         break;
 
         case 'topic':
-          setTitle(obj.what);
+          setTitleAndHeader(obj.what);
           if(obj.who) {
             $twitstream.empty();
             if(obj.what) {
@@ -128,12 +135,14 @@ jQuery(document).ready(function($) {
             else {
               appendSystem( 'The topic was cleared by <strong>'+obj.who.name+'</strong>.', 'topic' );
             }
+            doAlert = k;
           }
         break;
 
         case 'stop':
           if(obj.who) {
             appendSystem( 'The stream was stopped by <strong>'+obj.who.name+'</strong>.', 'stop' );
+            doAlert = k;
           }
         break;
 
@@ -143,6 +152,7 @@ jQuery(document).ready(function($) {
 
         case 'speech':
           appendSpeech(obj, mySessionId);
+          doAlert = k;
         break;
 
         case 'buffer':
@@ -161,7 +171,16 @@ jQuery(document).ready(function($) {
 
       }
     });
+
+    if(doAlert) {
+      if($('body').is('.blurred')) {
+        blinkTitle("["+doAlert+"]")
+      }
+    }
+
   });
+
+
 
   socket.on('disconnect', function(){
     $roster.empty();
@@ -169,10 +188,41 @@ jQuery(document).ready(function($) {
     appendSystem('<strong>Socket disconnected.</strong> <a href="#reload">reload</a>', 'disconnect');
   });
 
-  function setTitle(str) {
+
+  $(window).bind({
+    focus: function() { 
+      $('body').removeClass('blurred'); 
+      blinkTitle(false);
+    },
+    blur: function() { $('body').addClass('blurred'); }
+  });
+
+  var BLINK_TITLE_INTERVAL;
+
+  function blinkTitle(blinkTxt) {
+    clearInterval(BLINK_TITLE_INTERVAL);
+
+    var $title = $('title'),
+        originalTxt = $title.data('originalTxt') || $title.text();
+
+    $title
+      .data('originalTxt', originalTxt)
+      .text(originalTxt)
+      .removeClass('blink');
+
+    if(blinkTxt) {
+      BLINK_TITLE_INTERVAL = setInterval(function() {
+        if($title.is('.blink')) { $title.removeClass('blink').text($title.data('originalTxt')); }
+        else { $title.addClass('blink').text(blinkTxt); }
+      }, 1000);
+    }
+  }
+
+  function setTitleAndHeader(str) {
     $('title').text('TwitChat'+(str?' / '+str:''));
     $('header')[str?'text':'html'](str||'use <kbd>/topic</kbd>!');
   }
+
 
   function appendSystem(msg, addCls) {
     $('<li/>')

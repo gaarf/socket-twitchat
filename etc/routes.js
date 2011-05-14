@@ -13,8 +13,9 @@ module.exports.setRoutes = function(app, BASE_VIEW_OPTIONS) {
     , _.defaults(
         { scripts:
           [ 'libs/jqdnr.js'
-          , 'client.js'
+          , 'libs/twitter-text-1.4.2.js'
           , '/socket.io/socket.io.js'
+          , 'client.js'
           ]
         }
       , BASE_VIEW_OPTIONS
