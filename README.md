@@ -15,4 +15,6 @@ A Twitter-enabled chatroom. All participants see the same stream of live twitter
   * Socket.io
   * jQuery
   * jqDnR-touch
+  * SoundManager 2
+  * twitter-text
   * YUI CSS Reset/Fonts
