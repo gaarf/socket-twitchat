@@ -11,11 +11,16 @@ jQuery(document).ready(function($) {
   socket.connect();
 
 
-  $convo.delegate('.disconnect a', 'click', function(e) {
+  $convo.add($twitstream).delegate('a', 'click', function(e) {
     e.preventDefault();
-    window.location.reload();
+    var $link = $(this);
+    if($link.is('.disconnect a')) {
+      window.location.reload();
+    }
+    else { // emulate target='_blank
+      window.open($link.attr('href'));
+    }
   });
-
 
   $roster.delegate('a', 'click', function(e) {
     e.preventDefault();
@@ -235,12 +240,12 @@ jQuery(document).ready(function($) {
   function spokenElement(s) {
     if(s.image && 0===$convo.find('div.image img[src="'+s.image+'"]').size()) { // dont repost images
       return $('<div class="image" />').append(
-        $('<a target="_blank" />').attr('href', s.image).append(
+        $('<a />').attr('href', s.image).append(
           $('<img/>').attr('src', s.image).attr('title', s.text==s.image ? '' : s.text)
         )
       ); 
     }
-    return $('<p/>').text( s.text );
+    return $('<p/>').html( twttr.txt.autoLink(s.text) );
   }
 
   function appendSpeech(speech, mySessionId) {
@@ -280,18 +285,18 @@ jQuery(document).ready(function($) {
         $('<div/>')
           .addClass('meta')
           .append( 
-            $('<a target="_blank" class="who" />')
+            $('<a class="who" />')
               .attr('href',userUrl)
               .append( $('<img />').attr('src', tweet.user.profile_image_url) )
               .append( $('<span />').text(tweet.user.name) )
           )
           .append( 
-            $('<a target="_blank" class="when" />')
+            $('<a class="when" />')
               .attr('href',userUrl+'/status/'+tweet.id_str)
               .text(niceTime(tweet.created_at))
           )
       )
-      .append( $('<p/>').text(tweet.text) )
+      .append( $('<p/>').html(twttr.txt.autoLink(tweet.text)) )
       .hide()
       .prependTo($twitstream)
       [slide?'slideDown':'fadeIn']('fast', function() {
