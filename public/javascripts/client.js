@@ -184,7 +184,11 @@ jQuery(document).ready(function($) {
 
   function spokenElement(s) {
     if(s.image && 0===$convo.find('div.image img[src="'+s.image+'"]').size()) { // dont repost images
-      return $('<div class="image" />').append($('<img/>').attr('src', s.image).attr('title', s.text)); 
+      return $('<div class="image" />').append(
+        $('<a target="_blank" />').attr('href', s.image).append(
+          $('<img/>').attr('src', s.image).attr('title', s.text==s.image ? '' : s.text)
+        )
+      ); 
     }
     return $('<p/>').text( s.text );
   }

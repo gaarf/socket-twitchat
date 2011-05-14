@@ -322,6 +322,10 @@ footer {
   padding:2px;
 }
 
+#page-index div.chatroom .conversation div.image {
+  padding:3px 2px 0;
+}
+
 #page-index div.chatroom .conversation div.image img {
   max-width:100%;
 }
