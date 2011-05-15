@@ -5,11 +5,17 @@ jQuery(document).ready(function($) {
       $convo = $page.find('.chatroom ol.conversation'),
       $compose = $page.find('.chatroom form.compose'),
       $input = $compose.find('input'),
-      $twitstream = $page.find('.twitstream ol.tweets'); 
+      $twitstream = $page.find('.twitstream ol.tweets');
 
   var socket = new io.Socket();
   socket.connect();
 
+  soundManager.url = '/javascripts/libs/soundmanager2/';
+  soundManager.onload = function() {
+    $.each(['fingerplop', 'fingerplop2'], function(i, name) {
+      soundManager.createSound(name,'/mp3/'+name+'.mp3');
+    });
+  };
 
   $convo.add($twitstream).delegate('a', 'click', function(e) {
     e.preventDefault();
@@ -96,8 +102,9 @@ jQuery(document).ready(function($) {
     var mySessionId = this.transport.sessionid,
         doAlert = false;
 
+    // console.debug('>>>',str);
+
     $.each(JSON.parse(str), function(k,obj) {
-      // console.log(k,obj)
 
       switch(k) {
 
@@ -158,6 +165,7 @@ jQuery(document).ready(function($) {
         case 'speech':
           appendSpeech(obj, mySessionId);
           doAlert = k;
+          soundManager.play(mySessionId!=obj.user.id ? 'fingerplop' : 'fingerplop2');
         break;
 
         case 'buffer':
@@ -249,8 +257,6 @@ jQuery(document).ready(function($) {
   }
 
   function appendSpeech(speech, mySessionId) {
-    console.log('speech', speech);
-
     var user = speech.user,
         $last = $convo.find('li:last'),
         when = niceTime(speech.time);
@@ -309,10 +315,5 @@ jQuery(document).ready(function($) {
     d.setTime( input.toString().indexOf(' ')!=-1 ? Date.parse(input) : parseInt(input,10) );
     return d.toLocaleTimeString();
   }
-
-  // function linkifyUrls(input){
-  //   return input.toString().replace( /https?:\/\/[^\s]+/g, function(a) { return '<a href="'+a+'">'+a+'</a>'; } );
-  // }
-
 
 });

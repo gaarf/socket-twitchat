@@ -71,7 +71,10 @@ if (!module.parent) {
   /* ================================================================ tweet activity */
 
   setInterval(function() {
-    socket.broadcast(JSON.stringify({ 'tweets': room.getTweets() }));
+    var tweets = room.getTweets();
+    if(tweets.length) {
+      socket.broadcast(JSON.stringify({ 'tweets': tweets }));
+    }
   }, 1000);
 
 }

@@ -14,6 +14,7 @@ module.exports.setRoutes = function(app, BASE_VIEW_OPTIONS) {
         { scripts:
           [ 'libs/jqdnr.js'
           , 'libs/twitter-text-1.4.2.js'
+          , 'libs/soundmanager2/soundmanager2-nodebug-jsmin.js'
           , '/socket.io/socket.io.js'
           , 'client.js'
           ]
