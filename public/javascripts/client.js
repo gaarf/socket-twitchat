@@ -197,7 +197,7 @@ jQuery(document).ready(function($) {
 
   socket.on('disconnect', function(){
     $roster.empty();
-    $compose.children().attr('disabled', true);
+    $compose.hide();
     appendSystem('<strong>Socket disconnected.</strong> <a href="#reload">reload</a>', 'disconnect');
   });
 
