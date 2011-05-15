@@ -265,7 +265,7 @@ footer {
 }
 
 #page-index div.chatroom ul.roster li{
-  padding:3px 0 3px 18px;
+  padding:3px 0 3px 20px;
   background: transparent url(http://cdn.dustball.com/user.png) no-repeat 0 3px;
 }
 #page-index div.chatroom ul.roster li.isyou {
