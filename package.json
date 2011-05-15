@@ -2,7 +2,7 @@
   "author": "AD (http://gaarf.info)",
   "name": "socket-twitchat",
   "description": "A nodejs experiment",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/gaarf/socket-twitchat"

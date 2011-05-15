@@ -261,15 +261,20 @@ footer {
 }
 
 #page-index div.chatroom li {
-  margin:5px;
+  margin:3px;
 }
 
-/*#page-index div.chatroom ul.roster li.isyou .name{
-  font-weight:bold;
-}*/
+#page-index div.chatroom ul.roster li{
+  padding:3px 0 3px 18px;
+  background: transparent url(http://cdn.dustball.com/user.png) no-repeat 0 3px;
+}
+#page-index div.chatroom ul.roster li.isyou {
+  background-image:url(http://cdn.dustball.com/user_orange.png);
+}
 
 #page-index div.chatroom ul.roster .meta {
-  font-size:77%;
+  font-size:8px;
+  display:none;
 }
 
 #page-index div.chatroom .conversation li {
