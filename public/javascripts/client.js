@@ -248,7 +248,7 @@ jQuery(document).ready(function($) {
     if(s.image && 0===$convo.find('div.image img[src="'+s.image+'"]').size()) { // dont repost images
       return $('<div class="image" />').append(
         $('<a />').attr('href', s.image).append(
-          $('<img/>').attr('src', s.image).attr('title', s.text==s.image ? '' : s.text)
+          $('<img/>').attr('src', s.image).attr('title', s.text==s.image ? '' : s.text).load(scrollConvo)
         )
       ); 
     }
@@ -258,10 +258,11 @@ jQuery(document).ready(function($) {
   function appendSpeech(speech, mySessionId) {
     var user = speech.user,
         $last = $convo.find('li:last'),
-        when = niceTime(speech.time);
+        when = niceTime(speech.time),
+        $spoken = spokenElement(speech);
 
     if($last.size() && $last.find('.meta .who').attr('data-userId') == user.id) {
-      $last.append(spokenElement(speech));
+      $last.append($spoken);
       $last.find('.meta .who').text(user.name);
       $last.find('.meta .when').text(when);
     }
@@ -273,7 +274,7 @@ jQuery(document).ready(function($) {
             .append( $('<span class="who" />').attr('data-userId',user.id).text(user.name) )
             .append( $('<span class="when" />').text(when) )
         )
-        .append(spokenElement(speech))
+        .append($spoken)
         .appendTo($convo);
     }
     scrollConvo();
