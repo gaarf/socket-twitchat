@@ -5,6 +5,7 @@ module.exports.configure = function(app, express) {
       { title: pkg.name
       , meta: { desc: pkg.description
               , version: pkg.version
+              , github: pkg.repository.type=='git' && pkg.repository.url
               , author: parsePerson(pkg.author)
               }
       , jquery: { version: '1.5.2' }
