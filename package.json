@@ -1,10 +1,10 @@
 {
   "author": "gaarf (http://gaarf.info)",
   "name": "socket-twitchat",
-  "description": "A chatroom with a shared Twitter stream",
-  "keywords": ["chat","twitter","stream","socket.io"],
+  "description": "ExpressJS webapp implementing a chatroom with a shared Twitter live-stream",
+  "keywords": ["irc-like", "socket.io"],
   "homepage": "http://gaarf.no.de",
-  "version": "0.7.11",
+  "version": "0.7.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/gaarf/socket-twitchat"
