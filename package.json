@@ -1,8 +1,8 @@
 {
   "author": "gaarf (http://gaarf.info)",
   "name": "socket-twitchat",
-  "description": "ExpressJS webapp implementing a chatroom with a shared Twitter live-stream",
-  "keywords": ["irc-like", "socket.io"],
+  "description": "IRC-like chatroom + Twitter live-stream",
+  "keywords": ["real-time", "webapp", "ExpressJS", "socket.io", "jQuery", "campfire"],
   "homepage": "http://gaarf.no.de",
   "version": "0.7.12",
   "repository": {
