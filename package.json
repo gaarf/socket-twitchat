@@ -2,7 +2,7 @@
   "author": "gaarf (http://gaarf.info)",
   "name": "socket-twitchat",
   "description": "A chatroom with a shared Twitter stream",
-  "keywords": ['chat','twitter','stream','socket.io'],
+  "keywords": ["chat","twitter","stream","socket.io"],
   "homepage": "http://gaarf.no.de",
   "version": "0.7.11",
   "repository": {
