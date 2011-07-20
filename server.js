@@ -11,15 +11,14 @@ if (!module.parent) {
   console.log("Express server listening on port %d", app.address().port);
 
   var _ = require('underscore')
-    , io = require('socket.io') // socket.io, I choose you
-    , socket = io.listen(app)
+    , io = require('socket.io').listen(app) // socket.io, I choose you
     , roomManager = require('./lib/manager.js')
     , room = roomManager.createRoom();
 
 
   /* ================================================================ managing clients */
 
-  socket.on('connection', function(client){
+  io.sockets.on('connection', function(client){
 
     var user = roomManager.getUser(client);
 
@@ -36,12 +35,12 @@ if (!module.parent) {
 
     user.on('name-update', function(me) {
       user.joinRoom(room);
-      client.send(JSON.stringify({ 'buffer': room.buffer, 'topic': {what:room.topic}, 'join':me }));
+      client.json.send({ 'buffer': room.buffer, 'topic': {what:room.topic}, 'join':me });
       sendHelp();
     });
 
     user.on('slash-response', function(msg, cls) {
-      client.send(JSON.stringify({ 'system': {msg:msg, addCls:cls} }));
+      client.json.send({ 'system': {msg:msg, addCls:cls} });
     });
 
   });
@@ -51,21 +50,21 @@ if (!module.parent) {
   /* ================================================================ chatroom activity */
 
   room.on('topic-update', function(who) {
-    socket.broadcast(JSON.stringify({ 'topic': {what:this.topic, who:who} }));
+    io.sockets.json.send({ 'topic': {what:this.topic, who:who} });
   });
 
   room.on('stream-stop', function(who) {
-    socket.broadcast(JSON.stringify({ 'stop': {who:who}, 'topic': {what:this.topic+' (stopped)'} }));
+    io.sockets.json.send({ 'stop': {who:who}, 'topic': {what:this.topic+' (stopped)'} });
   });
 
   room.on('roster-update', function(what, who) {
     var out = { 'roster': this.roster };
     out[what] = who; // fun!
-    socket.broadcast(JSON.stringify(out));
+    io.sockets.json.send(out);
   });
 
   room.on('conversation-update', function(msg) {
-    socket.broadcast(JSON.stringify({ 'speech': msg }));
+    io.sockets.json.send({ 'speech': msg });
   });
 
 
@@ -75,7 +74,7 @@ if (!module.parent) {
   setInterval(function() {
     var tweets = room.getTweets();
     if(tweets.length) {
-      socket.broadcast(JSON.stringify({ 'tweets': tweets }));
+      io.sockets.json.send({ 'tweets': tweets });
     }
   }, 1000);
 

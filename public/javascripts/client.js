@@ -7,8 +7,7 @@ jQuery(document).ready(function($) {
       $input = $compose.find('input'),
       $twitstream = $page.find('.twitstream ol.tweets');
 
-  var socket = new io.Socket();
-  socket.connect();
+  var socket = io.connect();
 
   soundManager.url = '/javascripts/libs/soundmanager2/';
   soundManager.onload = function() {
@@ -98,13 +97,11 @@ jQuery(document).ready(function($) {
   });
 
 
-  socket.on('message', function(str){
-    var mySessionId = this.transport.sessionid,
+  socket.on('message', function(msg){
+    var mySessionId = this.socket.sessionid,
         doAlert = false;
 
-    // console.debug('>>>',str);
-
-    $.each(JSON.parse(str), function(k,obj) {
+    $.each(msg, function(k,obj) {
 
       switch(k) {
 
